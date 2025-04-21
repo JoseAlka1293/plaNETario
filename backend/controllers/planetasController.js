@@ -1,8 +1,8 @@
 import connection from '../config/db.js';
 
-// Obtener todos los planetas
+// Obtener todos los planetas (ordenados por el orden del sistema solar)
 export const getPlanetas = (req, res) => {
-  connection.query('SELECT * FROM planetas', (err, results) => {
+  connection.query('SELECT * FROM planetas ORDER BY orden_solar ASC', (err, results) => {
     if (err) {
       return res.status(500).json({ error: err.message });
     }
@@ -26,9 +26,9 @@ export const getPlanetaById = (req, res) => {
 
 // Crear un nuevo planeta
 export const createPlaneta = (req, res) => {
-  const { nombre, descripcion, imagen_url, posicion_x, posicion_y, posicion_z } = req.body;
-  const sql = 'INSERT INTO planetas (nombre, descripcion, imagen_url, posicion_x, posicion_y, posicion_z) VALUES (?, ?, ?, ?, ?, ?)';
-  connection.query(sql, [nombre, descripcion, imagen_url, posicion_x, posicion_y, posicion_z], (err, result) => {
+  const { nombre, descripcion, orden_solar, imagen_web, modelo_3d } = req.body;
+  const sql = 'INSERT INTO planetas (nombre, descripcion, orden_solar, imagen_web, modelo_3d) VALUES (?, ?, ?, ?, ?)';
+  connection.query(sql, [nombre, descripcion, orden_solar, imagen_web, modelo_3d], (err, result) => {
     if (err) {
       return res.status(500).json({ error: err.message });
     }
@@ -39,9 +39,9 @@ export const createPlaneta = (req, res) => {
 // Actualizar un planeta existente
 export const updatePlaneta = (req, res) => {
   const { id } = req.params;
-  const { nombre, descripcion, imagen_url, posicion_x, posicion_y, posicion_z } = req.body;
-  const sql = 'UPDATE planetas SET nombre = ?, descripcion = ?, imagen_url = ?, posicion_x = ?, posicion_y = ?, posicion_z = ? WHERE id = ?';
-  connection.query(sql, [nombre, descripcion, imagen_url, posicion_x, posicion_y, posicion_z, id], (err, result) => {
+  const { nombre, descripcion, orden_solar, imagen_web, modelo_3d } = req.body;
+  const sql = 'UPDATE planetas SET nombre = ?, descripcion = ?, orden_solar = ?, imagen_web = ?, modelo_3d = ? WHERE id = ?';
+  connection.query(sql, [nombre, descripcion, orden_solar, imagen_web, modelo_3d, id], (err, result) => {
     if (err) {
       return res.status(500).json({ error: err.message });
     }
