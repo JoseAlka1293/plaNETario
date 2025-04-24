@@ -5,6 +5,7 @@ import connection from './config/db.js';
 import planetasRoutes from './routes/planetas.js';
 import authRoutes from './routes/auth.js'; 
 import usuarioRoutes from './routes/usuario.js';
+import favoritosRoutes from './routes/favoritos.js';
 
 dotenv.config();
 
@@ -16,10 +17,15 @@ app.use(express.json());
 
 // Rutas de autenticación
 app.use('/api/auth', authRoutes);
+
 // Ruta para usuariosRegistrados
 app.use('/api/usuario', usuarioRoutes);
+
 // Ruta para planetas
 app.use('/api/planetas', planetasRoutes);
+
+// Ruta para favoritos
+app.use('/api/favoritos', favoritosRoutes);
 
 // Ruta de prueba de conexión a la BD
 app.get('/api/test-db', (req, res) => {
