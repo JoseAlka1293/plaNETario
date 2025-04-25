@@ -1,22 +1,24 @@
-import React from 'react'
-import { Routes, Route } from 'react-router-dom'
-import Home from './components/Home'
-import Register from './components/Register'
-import Login from './components/Login'
-import Map3D from './components/Map3D'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './components/Home';
+import Map3D from './components/Map3D';
+import LandingPage from './pages/LandingPage';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
   return (
-    <div>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/" element={<LandingPage />} />
+        <Route
+          path="/home"
+          element={
+            <ProtectedRoute>
+              <Home />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/map" element={<Map3D />} />
       </Routes>
-    </div>
-  )
+  );
 }
 
-export default App
-
+export default App;
