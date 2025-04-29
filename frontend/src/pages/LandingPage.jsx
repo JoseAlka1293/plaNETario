@@ -4,32 +4,33 @@ import LoginForm from '../components/LoginForm';
 
 function LandingPage() {
   const [formularioActual, setFormularioActual] = useState('register');
+  const [isFading, setIsFading] = useState(false);
 
   const alternarFormulario = () => {
-    setFormularioActual((prev) => (prev === 'register' ? 'login' : 'register'));
+    setIsFading(true); // Empieza el fade out
+    setTimeout(() => {
+      setFormularioActual((prev) => (prev === 'register' ? 'login' : 'register'));
+      setIsFading(false); // Empieza el fade in después de cambiar
+    }, 300); // Duración del fade-out (300ms)
   };
 
   return (
-<div
-  style={{
-    backgroundImage: "url('/imgs/fondo-landing.png')",
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    minHeight: "100vh",
-    width: "100vw",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center"
-  }}
->
-  <div style={{ width: "100%", maxWidth: "400px" }}>
-    {formularioActual === 'register' ? (
-      <RegisterForm onSwitch={alternarFormulario} />
-    ) : (
-      <LoginForm onSwitch={alternarFormulario} />
-    )}
-  </div>
-</div>
+    <div
+      className="min-h-screen w-screen flex justify-center items-center bg-cover bg-center"
+      style={{ backgroundImage: "url('/imgs/fondo-landing.png')" }}
+    >
+      <div
+        className={`w-full max-w-[400px] transition-opacity duration-500 ease-in-out ${
+          isFading ? 'opacity-0' : 'opacity-100'
+        }`}
+      >
+        {formularioActual === 'register' ? (
+          <RegisterForm onSwitch={alternarFormulario} />
+        ) : (
+          <LoginForm onSwitch={alternarFormulario} />
+        )}
+      </div>
+    </div>
   );
 }
 

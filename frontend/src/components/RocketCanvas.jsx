@@ -1,19 +1,19 @@
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls, useGLTF } from '@react-three/drei';
-
-function RocketModel(props) {
-    const { scene } = useGLTF('/models/rocket.glb');
-    console.log(scene); // 👈 Añadimos esta línea
-    return <primitive object={scene} {...props} />;
-  }
+import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
+import RocketModel from './RocketModel';
+import Stars from './Stars'; 
 
 function RocketCanvas() {
   return (
-    <div className="rocket-canvas-container">
+    <div className="fixed top-0 left-0 w-screen h-screen -z-10 bg-black">
       <Canvas>
-        <ambientLight intensity={1} />
-        <directionalLight position={[2, 5, 2]} intensity={5} />   
-        <RocketModel position={[0, 0, 0]} scale={[10,10,10]} />
+        <PerspectiveCamera makeDefault position={[0, 2, 10]} />
+        <ambientLight intensity={0.8} />
+        <directionalLight position={[5, 5, 5]} intensity={2} />
+        {/* Fondo de estrellas */}
+        <Stars />
+        {/* Cohete */}
+        <RocketModel scale={[4, 4, 4]} />
         <OrbitControls enableZoom={false} />
       </Canvas>
     </div>
