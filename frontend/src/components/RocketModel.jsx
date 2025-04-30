@@ -1,43 +1,78 @@
-import { useRef, useState } from 'react';
-import { useGLTF } from '@react-three/drei';
+import { useRef, useState, useEffect } from 'react';
+import { useGLTF, Sparkles } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
-function RocketModel(props) {
+function RocketModel({ setRocketY, isMouseOverUI, ...props }) {
   const { scene } = useGLTF('/models/rocket.glb');
   const rocketRef = useRef();
-
+  const sparklesRef = useRef();
   const [targetPosition] = useState(new THREE.Vector3(0, 0, 0));
 
-  const maxX = 5;
-  const maxY = 3;
+  const [maxX, setMaxX] = useState(5);
+  const [maxY, setMaxY] = useState(4);
 
-  useFrame(({ mouse }) => {
-    if (rocketRef.current) {
-      const rocket = rocketRef.current;
+  useEffect(() => {
+    const updateMaxBounds = () => {
+      const width = window.innerWidth;
+      const height = window.innerHeight;
 
-      // Definimos posición objetivo según mouse, con límites
+      if (width > 1600) setMaxX(10);
+      else if (width > 1200) setMaxX(9);
+      else setMaxX(5);
+
+      if (height > 1000) setMaxY(6);
+      else if (height > 800) setMaxY(5);
+      else setMaxY(4);
+    };
+
+    updateMaxBounds();
+    window.addEventListener('resize', updateMaxBounds);
+    return () => window.removeEventListener('resize', updateMaxBounds);
+  }, []);
+
+  useFrame(({ mouse, clock }) => {
+    if (!rocketRef.current) return;
+
+    const rocket = rocketRef.current;
+
+    // Siempre rotar
+    rocket.rotation.y += 0.01;
+
+    // Movimiento controlado por el ratón si no está sobre la UI
+    if (!isMouseOverUI) {
       const desiredX = THREE.MathUtils.clamp(mouse.x * maxX, -maxX, maxX);
       const desiredY = THREE.MathUtils.clamp(mouse.y * maxY, -maxY, maxY);
-
       targetPosition.set(desiredX, desiredY, 0);
-
-      // Interpolamos suavemente hacia el objetivo
       rocket.position.lerp(targetPosition, 0.05);
+    }
 
-      // Ajustamos rotaciones
-      rocket.rotation.y += 0.01; // rotación constante
-      
-      // 🎯 Detectar altura máxima para mostrar planetas
-      if (rocket.position.y > 7 && !rocket.userData.hasReachedEnd) {
-        setShowFinal(true);
-        rocket.userData.hasReachedEnd = true;
-      }
+    if (setRocketY) setRocketY(rocket.position.y);
+
+    // Animación de la llama pulsante si no está sobre la UI
+    if (sparklesRef.current) {
+      const scaleY = 0.5 + Math.sin(clock.elapsedTime * 10) * 0.1;
+      const opacity = isMouseOverUI ? 0.5 : 0.8;
+      sparklesRef.current.scale.y = scaleY;
+      sparklesRef.current.material.opacity = opacity;
     }
   });
 
-  return <primitive ref={rocketRef} object={scene} {...props} />;
+  return (
+    <group ref={rocketRef} {...props}>
+      <primitive object={scene} scale={[1.5, 1.5, 1.5]} />
+      <Sparkles
+        ref={sparklesRef}
+        count={180}
+        scale={[0.1, 0.9, 0.3]}
+        size={150}
+        speed={5}
+        color="#ff6600"
+        opacity={0.7}
+        position={[0, -0.6, 0]}
+      />
+    </group>
+  );
 }
 
 export default RocketModel;
-

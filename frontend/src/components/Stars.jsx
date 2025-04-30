@@ -1,57 +1,99 @@
-import { useMemo } from 'react';
+import { useMemo, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
-function Stars() {
-  const starCount = 15000;
+function Stars({ rocketY = 0, count = 5000 }) {
+  const groupRef = useRef();
+  const groupRef2 = useRef();
+  const pointsRef = useRef();
 
-  // Creamos las posiciones de las estrellas sólo una vez
-  const starsGeometry = useMemo(() => {
-    const geometry = new THREE.BufferGeometry();
+  const geometry = useMemo(() => {
+    const geo = new THREE.BufferGeometry();
     const positions = [];
+    const sizes = [];
 
-    for (let i = 0; i < starCount; i++) {
-      const x = (Math.random() - 0.5) * 200;
-      const y = Math.random() * 300; // más alto para simular "viaje largo"
-      const z = (Math.random() - 0.5) * 200;
-      positions.push(x, y, z);
+    for (let i = 0; i < count; i++) {
+      positions.push(
+        (Math.random() - 0.5) * 300,
+        (Math.random() - 0.5) * 300,
+        (Math.random() - 0.5) * 300
+      );
+      sizes.push(Math.random() * 1.5 + 0.5);
     }
 
-    geometry.setAttribute(
-      "position",
-      new THREE.Float32BufferAttribute(positions, 3)
-    );
-    return geometry;
+    geo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+    geo.setAttribute('size', new THREE.Float32BufferAttribute(sizes, 1));
+    return geo;
+  }, [count]);
+
+  const material = useMemo(() => {
+    return new THREE.ShaderMaterial({
+      uniforms: {
+        uColor: { value: new THREE.Color('#ffffff') },
+        uTime: { value: 0 }
+      },
+      vertexShader: `
+        attribute float size;
+        varying float vSize;
+        void main() {
+          vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+          vSize = size;
+          gl_PointSize = size * (300.0 / -mvPosition.z);
+          gl_Position = projectionMatrix * mvPosition;
+        }
+      `,
+      fragmentShader: `
+        uniform vec3 uColor;
+        varying float vSize;
+        void main() {
+          float d = distance(gl_PointCoord, vec2(0.5));
+          float alpha = 1.0 - smoothstep(0.2, 0.5, d);
+          gl_FragColor = vec4(uColor, alpha);
+        }
+      `,
+      transparent: true,
+      depthWrite: false
+    });
   }, []);
 
-  const material = useMemo(() => new THREE.PointsMaterial({
-    color: '#ffffff',
-    size: 0.5,
-    sizeAttenuation: true,
-    transparent: true,
-    opacity: 1,
-    depthWrite: false,
-    blending: THREE.AdditiveBlending
-  }), []);
-
   useFrame((state, delta) => {
-    // Movimiento de estrellas hacia abajo
-    const positions = starsGeometry.attributes.position.array;
-    for (let i = 1; i < positions.length; i += 3) {
-      positions[i] -= delta * 10; // Velocidad de bajada de las estrellas
-
-      // Si la estrella baja demasiado, la volvemos a poner arriba
-      if (positions[i] < -50) {
-        positions[i] = 300;
+    const sizes = geometry.attributes.size.array;
+    for (let i = 0; i < count; i++) {
+      if (Math.random() < 0.005) {
+        sizes[i] = 3 + Math.random() * 1.5;
+      } else {
+        sizes[i] = Math.max(0.5, sizes[i] - 0.05);
       }
     }
-    starsGeometry.attributes.position.needsUpdate = true;
-    // 🎇 Twinkle / brillo suave (oscila entre 0.5 y 1)
-    const opacity = 0.75 + Math.sin(state.clock.elapsedTime * 2) * 0.25;
-    material.opacity = opacity;
+    geometry.attributes.size.needsUpdate = true;
+
+    const speed = 10 + rocketY * 2;
+
+    if (groupRef.current && groupRef2.current) {
+      groupRef.current.position.y -= delta * speed;
+      groupRef2.current.position.y -= delta * speed;
+
+      // Loop infinito de las dos capas de estrellas
+      if (groupRef.current.position.y < -300) {
+        groupRef.current.position.y = groupRef2.current.position.y + 300;
+      }
+      if (groupRef2.current.position.y < -300) {
+        groupRef2.current.position.y = groupRef.current.position.y + 300;
+      }
+    }
   });
 
-  return <points geometry={starsGeometry} material={material} />;
+  return (
+    <>
+      <group ref={groupRef} position={[0, 0, 0]}>
+        <points ref={pointsRef} geometry={geometry} material={material} />
+      </group>
+      <group ref={groupRef2} position={[0, 300, 0]}>
+        <points geometry={geometry} material={material} />
+      </group>
+    </>
+  );
 }
 
 export default Stars;
+
