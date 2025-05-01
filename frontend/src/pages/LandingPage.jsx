@@ -1,33 +1,46 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import RegisterForm from '../components/RegisterForm';
 import LoginForm from '../components/LoginForm';
+import DarkModeToggle from '../components/DarkModeToggle';
+import '../styles/stars.scss';
 
 function LandingPage() {
   const [formularioActual, setFormularioActual] = useState('register');
   const [isFading, setIsFading] = useState(false);
+  const [darkMode, setDarkMode] = useState(true);
 
   const alternarFormulario = () => {
-    setIsFading(true); // Empieza el fade out
+    setIsFading(true);
     setTimeout(() => {
-      setFormularioActual((prev) => (prev === 'register' ? 'login' : 'register'));
-      setIsFading(false); // Empieza el fade in después de cambiar
-    }, 300); // Duración del fade-out (300ms)
+      setFormularioActual(prev => (prev === 'register' ? 'login' : 'register'));
+      setIsFading(false);
+    }, 300);
   };
 
   return (
-    <div
-      className="min-h-screen w-screen flex justify-center items-center bg-cover bg-center"
-      style={{ backgroundImage: "url('/imgs/fondo-landing.png')" }}
-    >
+    <div className="relative min-h-screen w-screen flex justify-center items-center overflow-hidden">
+      {/* Switch Dark/Light */}
+      <header className="absolute top-4 right-4 z-20">
+        <DarkModeToggle darkMode={darkMode} setDarkMode={setDarkMode} />
+      </header>
+
+      {/* Fondo de estrellas, solo en LandingPage */}
+      <div className="stars-wrapper">
+        <div id="stars" />
+        <div id="stars2" />
+        <div id="stars3" />
+      </div>
+
+      {/* Contenedor de formularios */}
       <div
-        className={`w-full max-w-[400px] transition-opacity duration-500 ease-in-out ${
+        className={`relative z-10 w-full max-w-[400px] transition-opacity duration-500 ease-in-out ${
           isFading ? 'opacity-0' : 'opacity-100'
         }`}
       >
         {formularioActual === 'register' ? (
-          <RegisterForm onSwitch={alternarFormulario} />
+          <RegisterForm onSwitch={alternarFormulario} darkMode={darkMode} />
         ) : (
-          <LoginForm onSwitch={alternarFormulario} />
+          <LoginForm onSwitch={alternarFormulario} darkMode={darkMode} />
         )}
       </div>
     </div>
@@ -35,4 +48,3 @@ function LandingPage() {
 }
 
 export default LandingPage;
-

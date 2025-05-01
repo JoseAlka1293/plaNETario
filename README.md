@@ -4,7 +4,7 @@ distintos cuerpos celestes presentes en el espacio exterior.
 La creacion de este proyecto se realizara con distintas tecnologias modernas:
 
 
-                                ***     FRONTEND    ***
+                                        ***     FRONTEND    ***
 
 -> React: Es una biblioteca de JS con una gran comunidad
 
@@ -16,10 +16,14 @@ La creacion de este proyecto se realizara con distintas tecnologias modernas:
 
 -> Framer Motion: Una libreria para crear animaciones fluidas e interactivas en React
 
+-> GSAP: Para agregar animaciones a los botones
+
 -> React Router: Para gestionar la navegacion entre las diferentes paginas
 
+-> Sass: Para cargar codigo CSS haciendo que sea mas compatible con la mayoría de navegadores
 
-                                ***     BACKEND    ***
+
+                                        ***     BACKEND    ***
 
 -> Node.js: Un entorno de ejecucion para JavaScript en el servidor   
 
@@ -34,7 +38,6 @@ La creacion de este proyecto se realizara con distintas tecnologias modernas:
 -> mysql2: Un driver para Node.js que facilita la conexión y ejecución de consultas en una base de datos MySQL
 
 -> Middleware de CORS y JSON: Herramientas para configurar y asegurar la comunicacion entre el frontend y el backend, permitiendo que se puedan realizar peticiones de manera segura y manejar datos en formato JSON
-
 
 
                                 ***     HERRAMIENTAS ADICIONALES    ***
