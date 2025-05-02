@@ -1,84 +1,95 @@
+@use "sass:math";
+@use "sass:string";
+
 @function multiple-box-shadow($n) {
-    $value: "#{random(2000)}px #{random(2000)}px #FFF";
-    @for $i from 2 through $n {
-      $value: "#{$value}, #{random(2000)}px #{random(2000)}px #FFF";
-    }
-    @return unquote($value);
+  // Genera la primera sombra
+  $x: math.random() * 2000;
+  $y: math.random() * 2000;
+  $value: "#{math.round($x)}px #{math.round($y)}px #FFF";
+
+  // Añade el resto en bucle
+  @for $i from 2 through $n {
+    $x: math.random() * 2000;
+    $y: math.random() * 2000;
+    $value: "#{$value}, #{math.round($x)}px #{math.round($y)}px #FFF";
   }
-  
-  $shadows-small:  multiple-box-shadow(700);
-  $shadows-medium: multiple-box-shadow(200);
-  $shadows-big:    multiple-box-shadow(100);
-  
-  .stars-wrapper {
-    position: fixed;
-    inset: 0;                
-    overflow: hidden;
-    background: radial-gradient(
-      ellipse at bottom,
-      #1b2735 0%,
-      #090a0f 100%
-    );
-    z-index: -10;
-  }
-  
-  #stars,
-  #stars2,
-  #stars3 {
-    position: absolute;
-    top: 0;
-    left: 0;
-    background: transparent;
-    animation: animStar linear infinite;
-  }
-  
-  #stars {
-    width: 1px;
-    height: 1px;
-    box-shadow: $shadows-small;
-    animation-duration: 50s;
-  }
-  #stars::after {
-    content: '';
-    position: absolute;
-    top: 2000px;
-    width: 1px;
-    height: 1px;
-    box-shadow: $shadows-small;
-  }
-  
-  #stars2 {
-    width: 2px;
-    height: 2px;
-    box-shadow: $shadows-medium;
-    animation-duration: 100s;
-  }
-  #stars2::after {
-    content: '';
-    position: absolute;
-    top: 2000px;
-    width: 2px;
-    height: 2px;
-    box-shadow: $shadows-medium;
-  }
-  
-  #stars3 {
-    width: 3px;
-    height: 3px;
-    box-shadow: $shadows-big;
-    animation-duration: 150s;
-  }
-  #stars3::after {
-    content: '';
-    position: absolute;
-    top: 2000px;
-    width: 3px;
-    height: 3px;
-    box-shadow: $shadows-big;
-  }
-  
-  @keyframes animStar {
-    from { transform: translateY(0); }
-    to   { transform: translateY(-2000px); }
-  }
-  
+
+  // Devolver la lista sin comillas
+  @return string.unquote($value);
+}
+
+$shadows-small : multiple-box-shadow(700);
+$shadows-medium: multiple-box-shadow(200);
+$shadows-big   : multiple-box-shadow(100);
+
+.stars-wrapper {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: radial-gradient(
+    ellipse at bottom,
+    #1b2735 0%,
+    #090a0f 100%
+  );
+  z-index: -10;
+}
+
+#stars,
+#stars2,
+#stars3 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: transparent;
+  animation: animStar linear infinite;
+}
+
+#stars {
+  width: 1px;
+  height: 1px;
+  box-shadow: $shadows-small;
+  animation-duration: 50s;
+}
+#stars::after {
+  content: '';
+  position: absolute;
+  top: 2000px;
+  width: 1px;
+  height: 1px;
+  box-shadow: $shadows-small;
+}
+
+#stars2 {
+  width: 2px;
+  height: 2px;
+  box-shadow: $shadows-medium;
+  animation-duration: 100s;
+}
+#stars2::after {
+  content: '';
+  position: absolute;
+  top: 2000px;
+  width: 2px;
+  height: 2px;
+  box-shadow: $shadows-medium;
+}
+
+#stars3 {
+  width: 3px;
+  height: 3px;
+  box-shadow: $shadows-big;
+  animation-duration: 150s;
+}
+#stars3::after {
+  content: '';
+  position: absolute;
+  top: 2000px;
+  width: 3px;
+  height: 3px;
+  box-shadow: $shadows-big;
+}
+
+@keyframes animStar {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-2000px); }
+}

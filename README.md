@@ -22,6 +22,7 @@ La creacion de este proyecto se realizara con distintas tecnologias modernas:
 
 -> Sass: Para cargar codigo CSS haciendo que sea mas compatible con la mayoría de navegadores
 
+-> Axios: es una librería de JavaScript que simplifica la realización de solicitudes HTTP (como GET, POST, PUT, DELETE, etc.)
 
                                         ***     BACKEND    ***
 
@@ -39,6 +40,7 @@ La creacion de este proyecto se realizara con distintas tecnologias modernas:
 
 -> Middleware de CORS y JSON: Herramientas para configurar y asegurar la comunicacion entre el frontend y el backend, permitiendo que se puedan realizar peticiones de manera segura y manejar datos en formato JSON
 
+-> Multer: middleware de Node.js que facilita la subida de archivos en aplicaciones web, especialmente con Express.js
 
                                 ***     HERRAMIENTAS ADICIONALES    ***
 
