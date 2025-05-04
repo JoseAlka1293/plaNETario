@@ -7,18 +7,20 @@ import {
   deletePlaneta,
 } from '../controllers/planetasController.js';
 import verifyAdmin from '../middleware/verifyAdmin.js';
-import { upload } from '../config/upload.js';
+import upload from '../config/upload.js';
 
 const router = express.Router();
 
-// GET: Obtener todos los planetas (público)
+// GET: obtener todos los planetas (público)
 router.get('/', getPlanetas);
 
-// GET: Obtener un planeta por su ID (público)
+// GET: obtener un planeta por su ID (público)
 router.get('/:id', getPlanetaById);
 
-// POST: Crear un nuevo planeta (solo ADMIN)
-// └─ Aquí procesamos dos campos de archivo: imagen_web y modelo_3d
+// POST: crear un nuevo planeta (solo ADMIN)
+// — además de los campos de texto, procesamos dos ficheros:
+//    • imagen_web  (max 1 imagen)
+//    • modelo_3d    (max 1 modelo)
 router.post(
   '/',
   verifyAdmin,
@@ -29,8 +31,8 @@ router.post(
   createPlaneta
 );
 
-// PUT: Actualizar un planeta existente (solo ADMIN)
-// └─ También permitimos reemplazar los archivos
+// PUT: actualizar un planeta existente (solo ADMIN)
+// — también admitimos reemplazar los ficheros subidos
 router.put(
   '/:id',
   verifyAdmin,
@@ -41,7 +43,8 @@ router.put(
   updatePlaneta
 );
 
-// DELETE: Eliminar un planeta (solo ADMIN)
+// DELETE: eliminar un planeta (solo ADMIN)
 router.delete('/:id', verifyAdmin, deletePlaneta);
 
 export default router;
+

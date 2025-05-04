@@ -1,21 +1,35 @@
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
+import logo from "../../public/imgs/Logotipo.png";
 
-function Header() {
+export default function Header() {
   return (
-    <header className="fixed top-0 left-0 w-full flex justify-between items-center p-4 z-50 bg-black/60 backdrop-blur-md">
-      {/* Logo o Nombre */}
-      <div className="text-white text-2xl font-bold">
-        plaNETario 🚀
-      </div>
-
-      {/* Botón de acceso al Mapa 3D */}
-      <Link to="/map">
-        <button className="bg-white text-black px-6 py-2 rounded-full font-semibold shadow-md transition-all duration-300 hover:bg-cyan-400 hover:text-white hover:scale-105">
-          Ir al Mapa 3D
-        </button>
-      </Link>
+    <header className="bg-gray-800 text-white p-4 shadow-md">
+      <nav className="container mx-auto flex justify-between items-center">
+        <Link to="/home" className="text-2xl font-bold">
+        <img
+          src={logo}
+          alt="plaNETario"
+          className="h-10 md:h-12 lg:h-14 w-auto"
+        />
+        </Link>
+        <ul className="flex space-x-4">
+          <li>
+            <Link to="/home" className="hover:underline">
+              Home
+            </Link>
+          </li>
+          <li>
+            <Link to="/map" className="hover:underline">
+              Mapa 3D
+            </Link>
+          </li>
+          <li>
+            <Link to="/" className="hover:underline">
+              Login
+            </Link>
+          </li>
+        </ul>
+      </nav>
     </header>
   );
 }
-
-export default Header;

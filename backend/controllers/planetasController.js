@@ -1,3 +1,4 @@
+// backend/controllers/planetasController.js
 import connection from '../config/db.js';
 import path from 'path';
 
@@ -32,36 +33,32 @@ export const getPlanetaById = (req, res) => {
 export const createPlaneta = (req, res) => {
   const { nombre, descripcion, orden_solar } = req.body;
 
-  // Multer nos deja los ficheros en req.files
-  let imagen_web = null;
-  let modelo_3d   = null;
+  // Sacamos las rutas públicas de los ficheros subidos, si existen
+  const imagen_web = req.files?.imagen_web?.[0]?.originalname
+    ? `/uploads/images/${req.files.imagen_web[0].originalname}`
+    : null;
 
-  if (req.files?.imagen_web?.[0]) {
-    // ruta pública: /uploads/images/<filename>
-    imagen_web = path.join(
-      'uploads',
-      'images',
-      req.files.imagen_web[0].filename
-    );
-  }
+  const modelo_3d = req.files?.modelo_3d?.[0]?.originalname
+    ? `/uploads/models/${req.files.modelo_3d[0].originalname}`
+    : null;
 
-  if (req.files?.modelo_3d?.[0]) {
-    // ruta pública: /uploads/models/<filename>
-    modelo_3d = path.join(
-      'uploads',
-      'models',
-      req.files.modelo_3d[0].filename
-    );
-  }
+  const sql = `
+    INSERT INTO planetas
+      (nombre, descripcion, orden_solar, imagen_web, modelo_3d)
+    VALUES (?, ?, ?, ?, ?)
+  `;
 
-  const sql =
-    'INSERT INTO planetas (nombre, descripcion, orden_solar, imagen_web, modelo_3d) VALUES (?, ?, ?, ?, ?)';
   connection.query(
     sql,
     [nombre, descripcion, orden_solar, imagen_web, modelo_3d],
     (err, result) => {
       if (err) return res.status(500).json({ error: err.message });
-      res.status(201).json({ message: 'Planeta creado', id: result.insertId });
+      res.status(201).json({
+        message: 'Planeta creado',
+        id: result.insertId,
+        imagen_web,
+        modelo_3d
+      });
     }
   );
 };
@@ -71,45 +68,43 @@ export const updatePlaneta = (req, res) => {
   const { id } = req.params;
   const { nombre, descripcion, orden_solar } = req.body;
 
-  // Primero obtenemos el registro actual (en caso de no subir nuevo archivo)
+  // Primero leemos lo que había antes
   connection.query(
     'SELECT imagen_web, modelo_3d FROM planetas WHERE id = ?',
     [id],
     (selErr, rows) => {
       if (selErr) return res.status(500).json({ error: selErr.message });
-      if (rows.length === 0)
+      if (rows.length === 0) {
         return res.status(404).json({ message: 'Planeta no encontrado' });
+      }
 
       let current = rows[0];
 
-      // Si vienen nuevos ficheros, reemplazamos. Si no, mantenemos la ruta actual.
-      let imagen_web = current.imagen_web;
-      let modelo_3d  = current.modelo_3d;
+      // Si llegan ficheros nuevos, los usamos; si no, mantenemos los antiguos
+      const imagen_web = req.files?.imagen_web?.[0]?.originalname
+        ? `/uploads/images/${req.files.imagen_web[0].originalname}`
+        : current.imagen_web;
 
-      if (req.files?.imagen_web?.[0]) {
-        imagen_web = path.join(
-          'uploads',
-          'images',
-          req.files.imagen_web[0].filename
-        );
-      }
+      const modelo_3d = req.files?.modelo_3d?.[0]?.originalname
+        ? `/uploads/models/${req.files.modelo_3d[0].originalname}`
+        : current.modelo_3d;
 
-      if (req.files?.modelo_3d?.[0]) {
-        modelo_3d = path.join(
-          'uploads',
-          'models',
-          req.files.modelo_3d[0].filename
-        );
-      }
+      const sql = `
+        UPDATE planetas
+        SET nombre = ?, descripcion = ?, orden_solar = ?, imagen_web = ?, modelo_3d = ?
+        WHERE id = ?
+      `;
 
-      const sql =
-        'UPDATE planetas SET nombre = ?, descripcion = ?, orden_solar = ?, imagen_web = ?, modelo_3d = ? WHERE id = ?';
       connection.query(
         sql,
         [nombre, descripcion, orden_solar, imagen_web, modelo_3d, id],
         (updErr) => {
           if (updErr) return res.status(500).json({ error: updErr.message });
-          res.json({ message: 'Planeta actualizado' });
+          res.json({
+            message: 'Planeta actualizado',
+            imagen_web,
+            modelo_3d
+          });
         }
       );
     }
@@ -119,9 +114,12 @@ export const updatePlaneta = (req, res) => {
 // Eliminar un planeta
 export const deletePlaneta = (req, res) => {
   const { id } = req.params;
-  const sql = 'DELETE FROM planetas WHERE id = ?';
-  connection.query(sql, [id], (err) => {
-    if (err) return res.status(500).json({ error: err.message });
-    res.json({ message: 'Planeta eliminado' });
-  });
+  connection.query(
+    'DELETE FROM planetas WHERE id = ?',
+    [id],
+    (err) => {
+      if (err) return res.status(500).json({ error: err.message });
+      res.json({ message: 'Planeta eliminado' });
+    }
+  );
 };

@@ -1,13 +1,26 @@
-import React from 'react';
+import React from 'react'
 
-const Map3D = () => {
+export default function Map3D() {
   return (
-    <div className='text-gray-50'>
-      <h1>Mapa 3D</h1>
-      <p>Esta sección mostrara el mapa 3D interactivo</p>
-      {/* Aquí se integrara react-three-fiber y las interacciones 3D*/}
+    <div className="container mx-auto px-4 py-12">
+      <h1 className="text-3xl font-bold text-center text-white mb-8">
+        Galería 3D de Planetas
+      </h1>
+      <div className="grid gap-6
+                      grid-cols-1
+                      sm:grid-cols-2
+                      md:grid-cols-3
+                      lg:grid-cols-4">
+        {/* Aquí irán tus planetas; por ahora dejamos huecos vacíos */}
+        {Array.from({ length: 8 }).map((_, i) => (
+          <div
+            key={i}
+            className="h-48 bg-gray-800 bg-opacity-50 rounded-lg flex items-center justify-center text-gray-400"
+          >
+            Modelo {i + 1}
+          </div>
+        ))}
+      </div>
     </div>
-  );
-};
-
-export default Map3D;
+  )
+}
