@@ -1,4 +1,3 @@
-// frontend/src/pages/PlanetDetailPage.jsx
 import React, { useEffect, useState, Suspense } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import axios from 'axios'

@@ -4,10 +4,10 @@ import dotenv from 'dotenv';
 dotenv.config({ path: '../.env' });
 
 const connection = mysql.createConnection({
-  host: process.env.DB_HOST,            // Servidor -> 'localhost'
-  user: process.env.DB_USER,            // Usuario de MySQL
-  password: process.env.DB_PASSWORD,    // Contraseña
-  database: process.env.DB_NAME,        // Nombre de BD -> 'planetario_db'
+  host: process.env.DB_HOST,        
+  user: process.env.DB_USER,          
+  password: process.env.DB_PASSWORD,   
+  database: process.env.DB_NAME,        
 });
 
 connection.connect((err) => {

@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  # ────────────────────────────────────────────────────────────────
+  # Base de datos MySQL
+  db:
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql
+      MYSQL_DATABASE: planetario_db
+      MYSQL_ROOT_HOST: '%'          # permite conexiones remotas (phpMyAdmin)
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+  # ────────────────────────────────────────────────────────────────
+  # Interfaz de administración de MySQL
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - "8080:80"
+    environment:
+      PMA_HOST: db
+      PMA_PORT: "3306"
+      PMA_USER: root
+      PMA_PASSWORD: mysql
+
+  # ────────────────────────────────────────────────────────────────
+  # Backend (Node + Express)
+  backend:
+    build: ./backend
+    command: sh -c "sleep 15 && npm start"
+    restart: on-failure
+    depends_on:
+      - db
+    ports:
+      - "5000:5000"
+    environment:
+      DB_HOST: db
+      DB_USER: root
+      DB_PASSWORD: mysql
+      DB_NAME: planetario_db
+      JWT_SECRET: miclavesupersecreta
+
+  # ────────────────────────────────────────────────────────────────
+  # Frontend (Vite + React)
+  frontend:
+    build: ./frontend
+    restart: on-failure
+    depends_on:
+      - backend
+    ports:
+      - "5173:5173"
+    environment:
+      VITE_API_BASE_URL: http://localhost:5000  
+
+volumes:
+  db_data:

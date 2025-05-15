@@ -1,5 +1,5 @@
 import db from '../config/db.js';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 // Crear nuevo usuario (por defecto rol = 'user')
 export const crearUsuario = async ({ nombre, email, contraseña, rol = 'user' }) => {

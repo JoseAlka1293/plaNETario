@@ -1,4 +1,3 @@
-// frontend/src/components/Loader3D.jsx
 import React, { Suspense } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { useGLTF } from '@react-three/drei'

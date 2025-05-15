@@ -4,11 +4,12 @@ import react from "@vitejs/plugin-react-swc";
 export default defineConfig({
   plugins: [react()],
   server: {
+    host: true,
     proxy: {
       // cualquier llamada a /api/... en 5173
       // se reemplaza por http://localhost:5000/api/...
       "/api": {
-        target: "http://localhost:5000",
+        target: "http://backend:5000",     //backend para docker //localhost para local
         changeOrigin: true,
         secure: false,
         rewrite: (path) => path.replace(/^\/api/, "/api"),
@@ -18,7 +19,7 @@ export default defineConfig({
       },
       // ...y ahora esto para tus ficheros subidos
       "/uploads": {
-        target: "http://localhost:5000",
+        target: "http://backend:5000",      //backend para docker //localhost para local
         changeOrigin: true,
         secure: false,
         // opcionalmente, si tu backend monta el static en "/uploads" exacto,

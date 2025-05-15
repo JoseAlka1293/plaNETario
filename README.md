@@ -22,7 +22,13 @@ La creacion de este proyecto se realizara con distintas tecnologias modernas:
 
 -> Sass: Para cargar codigo CSS haciendo que sea mas compatible con la mayoría de navegadores
 
--> Axios: es una librería de JavaScript que simplifica la realización de solicitudes HTTP (como GET, POST, PUT, DELETE, etc.)
+-> Axios: Es una librería de JavaScript que simplifica la realización de solicitudes HTTP (como GET, POST, PUT, DELETE, etc.)
+
+-> bcryptjs: Permite proteger contraseñas
+
+-> jsonwebtoken: Permite crear tokens de sesión
+
+-> dotenv: Leer configuración desde .env
 
                                         ***     BACKEND    ***
 
@@ -32,11 +38,11 @@ La creacion de este proyecto se realizara con distintas tecnologias modernas:
 
 -> MySQL: Un sistema de gestión de bases de datos relacional en el que se almacenarán los datos del proyecto (usuarios, planetas, consultas)
 
--> phpMyAdmin: Una herramienta web que facilita la administración y gestión visual de las bases de datos MySQL
+-> PhpMyAdmin: Una herramienta web que facilita la administración y gestión visual de las bases de datos MySQL
 
 -> dotenv: Una libreria que permite cargar variables de entorno desde un archivo .env
 
--> mysql2: Un driver para Node.js que facilita la conexión y ejecución de consultas en una base de datos MySQL
+-> Mysql2: Un driver para Node.js que facilita la conexión y ejecución de consultas en una base de datos MySQL
 
 -> Middleware de CORS y JSON: Herramientas para configurar y asegurar la comunicacion entre el frontend y el backend, permitiendo que se puedan realizar peticiones de manera segura y manejar datos en formato JSON
 
@@ -51,3 +57,5 @@ La creacion de este proyecto se realizara con distintas tecnologias modernas:
 -> Git y GitHub: Herramientas de control de versiones que te permitirán gestionar el codigo
 
 -> Figma: Herramienta de diseño para crear los mockups y prototipos de la interfaz de usuario
+
+-> Docker + Docker Desktop: Herramienta que nos permite guardar nuestro entorno de trabajo y poder utilizarlo en otro ordenador sin tener que configurar nuevamente todas nuestras configuraciones
