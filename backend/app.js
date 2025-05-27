@@ -16,7 +16,6 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-// <-- exponemos la carpeta de uploads:
 app.use(
   '/uploads',
   express.static(path.join(process.cwd(), 'public', 'uploads'))

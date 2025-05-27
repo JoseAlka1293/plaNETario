@@ -73,7 +73,6 @@ function Stars({ rocketY = 0, count = 5000 }) {
       groupRef.current.position.y -= delta * speed;
       groupRef2.current.position.y -= delta * speed;
 
-      // Loop infinito de las dos capas de estrellas
       if (groupRef.current.position.y < -300) {
         groupRef.current.position.y = groupRef2.current.position.y + 300;
       }

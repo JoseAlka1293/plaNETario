@@ -2,10 +2,6 @@ import React, { Suspense } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import { useGLTF } from '@react-three/drei'
 
-/**
- * Componente que carga y rota el modelo 3D.
- * src: ruta pública en /models/RocketWithMoon.glb
- */
 function RocketWithMoon() {
   const { scene } = useGLTF('/models/RocketWithMoon.glb', true)
   useFrame((_, delta) => {
@@ -28,7 +24,6 @@ export default function Loader3D() {
         camera={{ position: [0, 0, 5], fov: 45 }}
         className="w-screen h-screen"
       >
-        {/* Iluminación mejorada */}
         <ambientLight intensity={1} />
         <hemisphereLight skyColor="#ffffff" groundColor="#444444" intensity={0.6} />
         <directionalLight position={[10, 10, 10]} intensity={1.0} />

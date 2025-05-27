@@ -1,3 +1,4 @@
+import db from '../config/db.js'  
 import { crearUsuario, buscarUsuarioPorEmail } from '../models/UserModel.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
@@ -66,5 +67,32 @@ export const login = async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ mensaje: 'Error en el servidor' });
+  }
+};
+
+//Perfil usuario registrado
+export const perfil = async (req, res) => {
+  try {
+    // req.usuario.id lo inyecta verifyToken
+    const userId = req.usuario.id;
+
+    // Consulta directa usando db; solo seleccionamos lo que queremos exponer
+    const [rows] = await db
+      .promise()
+      .execute(
+        'SELECT id, nombre, email, rol FROM usuarios WHERE id = ?',
+        [userId]
+      );
+
+    if (!rows.length) {
+      return res.status(404).json({ mensaje: 'Usuario no encontrado' });
+    }
+
+    // Devolver sólo los datos seguros
+    const { id, nombre, email, rol } = rows[0];
+    return res.json({ id, nombre, email, rol });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ mensaje: 'Error en el servidor' });
   }
 };

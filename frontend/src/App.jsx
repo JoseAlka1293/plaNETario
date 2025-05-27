@@ -13,17 +13,14 @@ export default function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Simula un pequeño “fetch” o simplemente un timeout
     const timer = setTimeout(() => setLoading(false), 1200);
     return () => clearTimeout(timer);
   }, []);
 
   if (loading) {
-    // Mientras loading = true mostramos nuestro loader 3D a pantalla completa
     return <Loader3D />;
   }
 
-  // Una vez cargado, montamos el router con todas tus rutas
   return (
 
       <Routes>
@@ -70,8 +67,16 @@ export default function App() {
           }
         />
 
-        {/* Demo (pública) */}
-        <Route path="/demo" element={<DemoPage />} />
+        {/* Demo */}
+        <Route 
+          path="/demo" 
+          element={
+            <ProtectedRoute>
+              <DemoPage />
+            </ProtectedRoute>
+          } 
+        />
+
       </Routes>
 
   );

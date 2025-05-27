@@ -11,7 +11,6 @@ export default function Map3D() {
                       sm:grid-cols-2
                       md:grid-cols-3
                       lg:grid-cols-4">
-        {/* Aquí irán tus planetas; por ahora dejamos huecos vacíos */}
         {Array.from({ length: 8 }).map((_, i) => (
           <div
             key={i}

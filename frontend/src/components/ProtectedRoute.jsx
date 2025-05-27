@@ -3,7 +3,6 @@ import { Navigate } from 'react-router-dom';
 export default function ProtectedRoute({ children, requiredRole }) {
   const token = localStorage.getItem('token');
   if (!token) {
-    // No autenticado
     return <Navigate to="/" replace />;
   }
 
@@ -13,7 +12,7 @@ export default function ProtectedRoute({ children, requiredRole }) {
     const payload = token.split('.')[1];
     role = JSON.parse(atob(payload)).rol;
   } catch {
-    // token inválido
+    // token invalido
     return <Navigate to="/" replace />;
   }
 

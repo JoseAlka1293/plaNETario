@@ -114,7 +114,6 @@ function LoginForm({ onSwitch, darkMode }) {
           )}
         </div>
 
-        {/* Input Contraseña */}
         <div className="relative flex flex-col">
           <label
             className={`text-sm mb-1 transition-transform duration-300 ${
@@ -152,7 +151,6 @@ function LoginForm({ onSwitch, darkMode }) {
           )}
         </div>
 
-        {/* Barra de fuerza de contraseña */}
         <div className="w-full rounded-full h-2.5 bg-gray-600">
           <div
             className={`h-2.5 rounded-full transition-all duration-300 ${
@@ -166,13 +164,11 @@ function LoginForm({ onSwitch, darkMode }) {
           />
         </div>
 
-        {/* Checkbox */}
         <div className="flex items-center gap-2 text-sm mb-5">
           <input type="checkbox" id="remember" className="accent-indigo-400" />
           <label htmlFor="remember" className={`${darkMode ? 'text-gray-200' : 'text-gray-300'}`}>Guardar información</label>
         </div>
 
-        {/* Botón */}
         <button
           type="submit"
           className={`py-2 px-4 rounded-full font-bold transition w-full ${
@@ -184,7 +180,6 @@ function LoginForm({ onSwitch, darkMode }) {
           Enviar
         </button>
 
-        {/* Switch Register */}
         <p className="text-sm text-center mt-4">
           ¿No tienes cuenta?
           <button

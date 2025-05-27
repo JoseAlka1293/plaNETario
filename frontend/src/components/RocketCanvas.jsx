@@ -15,10 +15,8 @@ function RocketCanvas() {
         <ambientLight intensity={0.8} />
         <directionalLight position={[5, 5, 5]} intensity={2} />
 
-        {/* Fondo de estrellas con velocidad dinámica */}
         <Stars rocketY={rocketY} />
 
-        {/* Cohete que actualiza su posición Y */}
         <RocketModel scale={[4, 4, 4]} setRocketY={setRocketY} isMouseOverUI={isMouseOverUI} />
 
         <OrbitControls enableZoom={false} />

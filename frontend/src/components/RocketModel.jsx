@@ -36,10 +36,8 @@ function RocketModel({ setRocketY, isMouseOverUI, ...props }) {
 
     const rocket = rocketRef.current;
 
-    // Siempre rotar
     rocket.rotation.y += 0.01;
 
-    // Movimiento controlado por el ratón si no está sobre la UI
     if (!isMouseOverUI) {
       const desiredX = THREE.MathUtils.clamp(mouse.x * maxX, -maxX, maxX);
       const desiredY = THREE.MathUtils.clamp(mouse.y * maxY, -maxY, maxY);
@@ -49,7 +47,6 @@ function RocketModel({ setRocketY, isMouseOverUI, ...props }) {
 
     if (setRocketY) setRocketY(rocket.position.y);
 
-    // Animación de la llama pulsante si no está sobre la UI
     if (sparklesRef.current) {
       const scaleY = 0.5 + Math.sin(clock.elapsedTime * 10) * 0.1;
       const opacity = isMouseOverUI ? 0.5 : 0.8;

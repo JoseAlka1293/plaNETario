@@ -2,19 +2,16 @@
 @use "sass:string";
 
 @function multiple-box-shadow($n) {
-  // Genera la primera sombra
   $x: math.random() * 2000;
   $y: math.random() * 2000;
   $value: "#{math.round($x)}px #{math.round($y)}px #FFF";
 
-  // Añade el resto en bucle
   @for $i from 2 through $n {
     $x: math.random() * 2000;
     $y: math.random() * 2000;
     $value: "#{$value}, #{math.round($x)}px #{math.round($y)}px #FFF";
   }
 
-  // Devolver la lista sin comillas
   @return string.unquote($value);
 }
 

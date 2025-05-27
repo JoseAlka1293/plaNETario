@@ -10,7 +10,6 @@ export const getFavoritosPorUsuario = async (req, res) => {
   const usuarioId = req.usuario.id;
   try {
     const favoritos = await obtenerFavoritosPorUsuario(usuarioId);
-    // devolvemos array [{ favoritoId, planetaId, orden }, …]
     res.json(favoritos);
   } catch (error) {
     res.status(500).json({ mensaje: 'Error al obtener favoritos', error });

@@ -18,9 +18,6 @@ router.get('/', getPlanetas);
 router.get('/:id', getPlanetaById);
 
 // POST: crear un nuevo planeta (solo ADMIN)
-// — además de los campos de texto, procesamos dos ficheros:
-//    • imagen_web  (max 1 imagen)
-//    • modelo_3d    (max 1 modelo)
 router.post(
   '/',
   verifyAdmin,
@@ -32,7 +29,6 @@ router.post(
 );
 
 // PUT: actualizar un planeta existente (solo ADMIN)
-// — también admitimos reemplazar los ficheros subidos
 router.put(
   '/:id',
   verifyAdmin,

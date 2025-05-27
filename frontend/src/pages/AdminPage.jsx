@@ -14,7 +14,7 @@ export default function AdminPage() {
     modelo_3d: null,
   });
 
-  // Estados para edición de planeta
+  // Estados para edicion de planetas
   const [editingPlanetId, setEditingPlanetId] = useState(null);
   const [editData, setEditData] = useState({
     nombre: "",
@@ -182,8 +182,9 @@ export default function AdminPage() {
   };
 
   return (
+
+    
     <div className="min-h-screen bg-gray-900 text-gray-100 p-6">
-      {/* Gestión de Usuarios */}
       <h1 className="text-3xl font-bold mb-4">Gestión de Usuarios</h1>
       <div className="overflow-x-auto mb-12">
         <table className="min-w-full table-auto border border-gray-700">
@@ -218,7 +219,6 @@ export default function AdminPage() {
         </table>
       </div>
 
-      {/* Formulario nuevo planeta */}
       <h2 className="text-2xl font-bold mb-4">Crear Nuevo Planeta</h2>
       <div className="bg-gray-800 bg-opacity-50 p-6 rounded-lg shadow-lg mb-8">
         <form
@@ -279,7 +279,6 @@ export default function AdminPage() {
         </form>
       </div>
 
-      {/* Gestión de Planetas */}
       <h2 className="text-2xl font-bold mb-4">Gestión de Planetas</h2>
       <div className="overflow-x-auto">
         <table className="min-w-full table-auto border border-gray-700">
@@ -305,12 +304,10 @@ export default function AdminPage() {
               <tr key={pl.id} className="hover:bg-gray-800">
                 {editingPlanetId === pl.id ? (
                   <>
-                    {/* 1) ID (no editable) */}
                     <td className="px-4 py-2 text-center align-middle">
                       {pl.id}
                     </td>
 
-                    {/* 2) Nombre */}
                     <td className="px-4 py-2 align-middle">
                       <input
                         name="nombre"
@@ -320,7 +317,6 @@ export default function AdminPage() {
                       />
                     </td>
 
-                    {/* 3) Descripción */}
                     <td className="px-4 py-2 align-middle">
                       <input
                         name="descripcion"
@@ -330,7 +326,6 @@ export default function AdminPage() {
                       />
                     </td>
 
-                    {/* 4) Imagen Web */}
                     <td className="px-4 py-2 align-middle text-center">
                       <input
                         name="imagen_web"
@@ -343,7 +338,6 @@ export default function AdminPage() {
                       />
                     </td>
 
-                    {/* 5) Modelo 3D */}
                     <td className="px-4 py-2 align-middle text-center">
                       <input
                         name="modelo_3d"
@@ -356,7 +350,6 @@ export default function AdminPage() {
                       />
                     </td>
 
-                    {/* 6) Orden Solar */}
                     <td className="px-4 py-2 align-middle">
                       <input
                         name="orden_solar"
@@ -367,7 +360,6 @@ export default function AdminPage() {
                       />
                     </td>
 
-                    {/* 7) Acciones */}
                     <td className="px-4 py-2 align-middle">
                       <div className="flex justify-center space-x-2">
                         <button
@@ -386,7 +378,6 @@ export default function AdminPage() {
                     </td>
                   </>
                 ) : (
-                  // Fila normal
                   <>
                     <td className="px-4 py-2">{pl.id}</td>
                     <td className="px-4 py-2">{pl.nombre}</td>

@@ -21,7 +21,6 @@ export default function DemoPage() {
   const [idx,     setIdx]     = useState(0)
   const current   = planets[idx] || {}
 
-  // 1) Carga de planetas
   useEffect(() => {
     const token = localStorage.getItem('token')
     axios
@@ -30,7 +29,6 @@ export default function DemoPage() {
       .catch(console.error)
   }, [])
 
-  // 2) Carga de datos externos
   useEffect(() => {
     if (!current.nombre) return
     const idApi = nameMap[current.nombre] || current.nombre.toLowerCase()
@@ -61,25 +59,18 @@ export default function DemoPage() {
 
   return (
     <div className="stars-wrapper relative flex flex-col min-h-screen bg-black text-gray-100">
-      {/*
-         Capas de estrellas absolutas. 
-         pointer-events-none para no bloquear el scroll.
-      */}
+
       <div id="stars"  className="fixed inset-0 -z-10 pointer-events-none" />
       <div id="stars2" className="fixed inset-0 -z-10 pointer-events-none" />
       <div id="stars3" className="fixed inset-0 -z-10 pointer-events-none" />
 
       <Header />
 
-      {/*
-        El main crece y puede hacer scroll vertical
-      */}
       <main className="relative z-10 flex-grow overflow-y-auto px-4 py-8 space-y-8">
         <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-center">
           {current.nombre}
         </h1>
 
-        {/* Imagen principal */}
         <div className="w-full max-w-lg aspect-video bg-gray-900/50 rounded-xl overflow-hidden shadow-2xl mx-auto">
           <img
             src={current.imagen_web}
@@ -88,7 +79,6 @@ export default function DemoPage() {
           />
         </div>
 
-        {/* Datos extraídos */}
         <div className="w-full max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
           {[
             ['Masa',     wiki.masa],
@@ -106,9 +96,7 @@ export default function DemoPage() {
           ))}
         </div>
 
-        {/* Navegación lateral responsive */}
         <div className="flex items-center justify-center space-x-4 w-full max-w-4xl mx-auto">
-          {/* Flechas sólo en móvil */}
           <button
             onClick={prev}
             className="p-3 bg-indigo-600 hover:bg-indigo-500 rounded-full shadow-lg text-white transition-transform hover:scale-110 md:hidden"
@@ -117,7 +105,6 @@ export default function DemoPage() {
             ◀
           </button>
 
-          {/* Contenedor de miniaturas */}
           <div className="flex flex-wrap justify-center gap-5 overflow-x-auto md:overflow-visible py-2 scrollbar-thin scrollbar-thumb-indigo-500">
             {planets.map((pl, i) => (
               <div
@@ -144,7 +131,6 @@ export default function DemoPage() {
             ))}
           </div>
 
-          {/* Flechas sólo en móvil */}
           <button
             onClick={next}
             className="p-3 bg-indigo-600 hover:bg-indigo-500 rounded-full shadow-lg text-white transition-transform hover:scale-110 md:hidden"

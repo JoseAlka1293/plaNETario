@@ -6,7 +6,6 @@ export default function DarkModeToggle({ darkMode, setDarkMode }) {
   const nightRef = useRef(null);
   const backgroundRef = useRef(null);
 
-  // 1) setup inicial de posiciones
   useEffect(() => {
     gsap.set('#moon, .star', { opacity: 0 });
     gsap.set('#sun, #cloud, #moon', { x: 15 });
@@ -15,7 +14,6 @@ export default function DarkModeToggle({ darkMode, setDarkMode }) {
 
   useEffect(() => {
     if (darkMode) {
-      // reproducimos exactamente lo de handleDayClick sin cambiar el estado
       gsap.set('#sun',   { opacity: 0 });
       gsap.set('#cloud', { opacity: 0 });
       gsap.set('#moon',  { x: -157, rotate: -360, opacity: 1, transformOrigin: 'center' });
@@ -53,13 +51,11 @@ export default function DarkModeToggle({ darkMode, setDarkMode }) {
 
   return (
     <div className="relative w-[150px] h-[70px] sm:w-[180px] sm:h-[85px]">
-      {/* Fondo del switch */}
       <div
         ref={backgroundRef}
         className="absolute inset-0 bg-[#d3edf8] rounded-full z-10"
       />
 
-      {/* Día */}
       <div
         id="day"
         ref={dayRef}
@@ -67,7 +63,6 @@ export default function DarkModeToggle({ darkMode, setDarkMode }) {
         className="absolute inset-0 rounded-full border-[4px] border-[#65c0e7] bg-[#9cd6ef] cursor-pointer z-20"
       />
 
-      {/* Noche */}
       <div
         id="night"
         ref={nightRef}
@@ -75,7 +70,6 @@ export default function DarkModeToggle({ darkMode, setDarkMode }) {
         className="absolute inset-0 rounded-full border-[4px] border-[#65c0e7] bg-[#9cd6ef] pointer-events-none z-20"
       />
 
-      {/* SVG Sol-Luna-Estrellas */}
       <svg
         id="darkmode"
         className="absolute inset-0 z-30 transform scale-[0.6] sm:scale-[0.8] pointer-events-none"

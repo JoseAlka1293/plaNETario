@@ -19,14 +19,11 @@ export default function PlanetViewer({ src }) {
         className="bg-transparent"
       >
         <Suspense fallback={null}>
-          {/* Iluminación un poco más potente */}
           <ambientLight intensity={0.3} />
           <hemisphereLight skyColor="white" groundColor="gray" intensity={1} />
           <directionalLight position={[5, 5, 5]} intensity={1} />
 
-          {/* Ajusta automáticamente la cámara al contenido */}
           <Bounds fit clip margin={1}>
-            {/* Inclina todo el grupo hacia abajo (-X) */}
             <group rotation={[-0.3, 0, 0]}>
               <Model src={src} />
             </group>
@@ -37,8 +34,8 @@ export default function PlanetViewer({ src }) {
             enableZoom
             autoRotate
             autoRotateSpeed={0.5}
-            minPolarAngle={Math.PI / 3}    // no permite girar demasiado arriba
-            maxPolarAngle={Math.PI / 2}    // no permite girar por debajo del horizonte
+            minPolarAngle={Math.PI / 3}    
+            maxPolarAngle={Math.PI / 2}    
           />
         </Suspense>
       </Canvas>

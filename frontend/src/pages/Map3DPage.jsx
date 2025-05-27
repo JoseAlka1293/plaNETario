@@ -10,7 +10,6 @@ export default function Map3DPage() {
   const [planets, setPlanets]   = useState([])
   const [favMap, setFavMap]     = useState({})  
 
-  // 1️⃣ Al montar, cargamos planetas y favoritos
   useEffect(() => {
     const token = localStorage.getItem('token')
     async function fetchAll() {
@@ -20,14 +19,12 @@ export default function Map3DPage() {
           axios.get('/api/favoritos',  { headers: { Authorization: `Bearer ${token}` } })
         ])
 
-        // construimos un mapa { planetaId: favoritoId }
         const map = {}
         favRes.data.forEach(f => {
           map[f.planetaId] = f.favoritoId
         })
         setFavMap(map)
 
-        // ordenamos: favoritos primero, luego por orden_solar
         const sorted = plRes.data
           .slice()
           .sort((a, b) => a.orden_solar - b.orden_solar)
@@ -40,21 +37,18 @@ export default function Map3DPage() {
     fetchAll()
   }, [])
 
-  // 2️⃣ Función para alternar favorito
   const toggleFavorite = async (planetaId) => {
     const token = localStorage.getItem('token')
     const favId = favMap[planetaId]
 
     try {
       if (favId) {
-        // eliminar favorito existente
         await axios.delete(`/api/favoritos/${favId}`, {
           headers: { Authorization: `Bearer ${token}` }
         })
         const { [planetaId]:_, ...remaining } = favMap
         setFavMap(remaining)
       } else {
-        // crear nuevo favorito
         const { data } = await axios.post('/api/favoritos',
           { planeta_id: planetaId, orden: 0 },
           { headers: { Authorization: `Bearer ${token}` } }
@@ -62,7 +56,6 @@ export default function Map3DPage() {
         setFavMap(prev => ({ ...prev, [planetaId]: data.favoritoId }))
       }
 
-      // reordenar planetas en UI
       setPlanets(pls => {
         return pls
           .slice()
@@ -76,7 +69,6 @@ export default function Map3DPage() {
 
   return (
     <div className="relative min-h-screen flex flex-col">
-      {/* fondo de estrellas */}
       <div className="stars-wrapper fixed inset-0 -z-10">
         <div id="stars" />
         <div id="stars2" />
@@ -96,7 +88,6 @@ export default function Map3DPage() {
               key={pl.id}
               className="bg-gray-800 bg-opacity-75 rounded-lg p-4 relative hover:shadow-xl transition"
             >
-              {/* ⭐ botón favorito */}
               <button
                 onClick={() => toggleFavorite(pl.id)}
                 className={`absolute top-2 right-2 text-2xl ${
@@ -105,7 +96,6 @@ export default function Map3DPage() {
               >
                 {favMap[pl.id] ? "★" : "☆"}
               </button>
-              {/* este es tu visualizador real */}
 
               <PlanetViewer src={pl.modelo_3d} />
               

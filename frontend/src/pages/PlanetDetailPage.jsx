@@ -11,7 +11,6 @@ function Model({ src }) {
   return <primitive object={scene} />
 }
 
-// Mapea nombre en español a la ruta de la API (en minúsculas, en inglés)
 const nameMap = {
   Mercurio: 'mercury',
   Venus:     'venus',
@@ -32,7 +31,6 @@ export default function PlanetDetailPage() {
   useEffect(() => {
     const token = localStorage.getItem('token')
 
-    // 1️⃣ Cargo los datos base de mi backend
     axios.get(`/api/planetas/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       })
@@ -41,13 +39,11 @@ export default function PlanetDetailPage() {
         return res.data.nombre
       })
       .then(nombreEsp => {
-        // 2️⃣ Llamo a la API de le-systeme-solaire
         const idApi = nameMap[nombreEsp] || nombreEsp.toLowerCase()
         return axios.get(`https://api.le-systeme-solaire.net/rest/bodies/${idApi}`)
       })
       .then(res => {
         const d = res.data
-        // construimos tres textos en español
         const masa      = `Masa: ${d.mass.massValue}×10^${d.mass.massExponent} kg`
         const radioYdens = `Radio medio: ${d.meanRadius} km — Densidad: ${d.density} g/cm³`
         const gravedad  = `Gravedad superficial: ${d.gravity} m/s² — Día sideral: ${d.sideralRotation.toFixed(2)} h`

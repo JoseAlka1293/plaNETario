@@ -77,7 +77,6 @@ function RegisterForm({ onSwitch, darkMode }) {
     >
       <h2 className="text-center mb-6 text-2xl font-bold">Registrarse</h2>
       <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-        {/* Input Nombre */}
         <div className="relative flex flex-col">
           <label
             className={`text-sm mb-1 transition-transform duration-300 ${
@@ -115,7 +114,6 @@ function RegisterForm({ onSwitch, darkMode }) {
           )}
         </div>
 
-        {/* Input Email */}
         <div className="relative flex flex-col">
           <label
             className={`text-sm mb-1 transition-transform duration-300 ${
@@ -153,7 +151,6 @@ function RegisterForm({ onSwitch, darkMode }) {
           )}
         </div>
 
-        {/* Input Contraseña */}
         <div className="relative flex flex-col">
           <label
             className={`text-sm mb-1 transition-transform duration-300 ${
@@ -191,7 +188,6 @@ function RegisterForm({ onSwitch, darkMode }) {
           )}
         </div>
 
-        {/* Barra de fuerza de contraseña */}
         <div className="w-full bg-gray-600 rounded-full h-2.5">
           <div
             className={`h-2.5 rounded-full transition-all duration-300 ${
@@ -205,7 +201,6 @@ function RegisterForm({ onSwitch, darkMode }) {
           />
         </div>
 
-        {/* Checkbox */}
         <div className="flex items-center gap-2 text-sm mb-5">
           <input type="checkbox" required className="accent-indigo-400" />
           <span className={`${darkMode ? 'text-gray-200' : 'text-gray-300'}`}>
@@ -213,7 +208,6 @@ function RegisterForm({ onSwitch, darkMode }) {
           </span>
         </div>
 
-        {/* Botón */}
         <button
           type="submit"
           className={`py-2 px-4 rounded-full font-bold transition w-full ${
@@ -225,7 +219,6 @@ function RegisterForm({ onSwitch, darkMode }) {
           Enviar
         </button>
 
-        {/* Switch Login */}
         <p className="text-sm text-center mt-4">
           ¿Ya tienes cuenta?
           <button
