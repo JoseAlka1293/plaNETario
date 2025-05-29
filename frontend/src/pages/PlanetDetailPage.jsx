@@ -113,7 +113,7 @@ export default function PlanetDetailPage() {
           </Canvas>
         </div>
 
-        {/* ——— TRES CAJAS CON DATOS DE “le-systeme-solaire.net” ——— */}
+        {/* ——— TRES CAJAS CON DATOS DE “le-systeme-solaire.net” (API para recoger informacion) ——— */}
         <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-3 gap-6">
           {cards.map((txt, i) => (
             <div

@@ -1,5 +1,5 @@
 Write-Host "Apagando contenedores anteriores..."
-docker-compose down
+docker-compose down -v
 
 Write-Host "Levantando entorno de Docker..."
 docker-compose up --build -d

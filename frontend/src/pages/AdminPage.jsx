@@ -5,7 +5,6 @@ export default function AdminPage() {
   const [usuarios, setUsuarios] = useState([]);
   const [planetas, setPlanetas] = useState([]);
 
-  // Estados para el formulario de nuevo planeta
   const [nuevo, setNuevo] = useState({
     nombre: "",
     descripcion: "",
@@ -14,7 +13,6 @@ export default function AdminPage() {
     modelo_3d: null,
   });
 
-  // Estados para edicion de planetas
   const [editingPlanetId, setEditingPlanetId] = useState(null);
   const [editData, setEditData] = useState({
     nombre: "",
@@ -54,6 +52,22 @@ export default function AdminPage() {
         )
       )
       .catch(console.error);
+  };
+
+  const handleDeleteUser = (userId) => {
+    if (!window.confirm("¿Seguro que quieres eliminar este usuario?")) return;
+    const token = localStorage.getItem("token");
+    axios
+      .delete(`/api/usuarios/${userId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then(() => {
+        setUsuarios((us) => us.filter((u) => u.id !== userId));
+      })
+      .catch((err) => {
+        console.error(err);
+        alert("No se pudo eliminar el usuario.");
+      });
   };
 
   const handleDeletePlaneta = (id) => {
@@ -150,16 +164,12 @@ export default function AdminPage() {
     if (editData.modelo_3d) form.append("modelo_3d", editData.modelo_3d);
 
     try {
-      const res = await axios.put(
-        `/api/planetas/${editingPlanetId}`,
-        form,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const res = await axios.put(`/api/planetas/${editingPlanetId}`, form, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
       setPlanetas((ps) =>
         ps.map((p) =>
           p.id === editingPlanetId
@@ -182,16 +192,18 @@ export default function AdminPage() {
   };
 
   return (
-
-    
     <div className="min-h-screen bg-gray-900 text-gray-100 p-6">
       <h1 className="text-3xl font-bold mb-4">Gestión de Usuarios</h1>
+
       <div className="overflow-x-auto mb-12">
-        <table className="min-w-full table-auto border border-gray-700">
+        <table className="min-w-full table-auto border border-gray-700 w-full">
           <thead className="bg-gray-800">
             <tr>
-              {["ID", "Nombre", "Email", "Rol"].map((h) => (
-                <th key={h} className="px-4 py-2 text-left">
+              {["ID", "Nombre", "Email", "Rol", "Acciones"].map((h) => (
+                <th
+                  key={h}
+                  className="px-4 py-2 text-left text-sm font-medium text-gray-200"
+                >
                   {h}
                 </th>
               ))}
@@ -200,18 +212,26 @@ export default function AdminPage() {
           <tbody className="divide-y divide-gray-700">
             {usuarios.map((u) => (
               <tr key={u.id} className="hover:bg-gray-800">
-                <td className="px-4 py-2">{u.id}</td>
-                <td className="px-4 py-2">{u.nombre}</td>
-                <td className="px-4 py-2">{u.email}</td>
-                <td className="px-4 py-2">
+                <td className="px-4 py-2 whitespace-nowrap">{u.id}</td>
+                <td className="px-4 py-2 whitespace-nowrap">{u.nombre}</td>
+                <td className="px-4 py-2 break-words max-w-xs">{u.email}</td>
+                <td className="px-4 py-2 whitespace-nowrap">
                   <select
                     value={u.rol}
                     onChange={(e) => handleRoleChange(u.id, e.target.value)}
-                    className="bg-gray-800 text-gray-100 border border-gray-600 rounded px-2 py-1"
+                    className="bg-gray-800 text-gray-100 border border-gray-600 rounded px-2 py-1 text-sm"
                   >
                     <option value="user">Usuario</option>
                     <option value="admin">Admin</option>
                   </select>
+                </td>
+                <td className="px-4 py-2 whitespace-nowrap">
+                  <button
+                    onClick={() => handleDeleteUser(u.id)}
+                    className="bg-red-600 hover:bg-red-500 text-white text-sm px-3 py-1 rounded transition"
+                  >
+                    Eliminar
+                  </button>
                 </td>
               </tr>
             ))}
@@ -287,6 +307,7 @@ export default function AdminPage() {
               {[
                 "ID",
                 "Nombre",
+                "Nombre Fichero",
                 "Descripción",
                 "Imagen Web",
                 "Modelo 3D",
@@ -300,129 +321,137 @@ export default function AdminPage() {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-700">
-            {planetas.map((pl) => (
-              <tr key={pl.id} className="hover:bg-gray-800">
-                {editingPlanetId === pl.id ? (
-                  <>
-                    <td className="px-4 py-2 text-center align-middle">
-                      {pl.id}
-                    </td>
+            {planetas.map((pl) => {
+              const filename = pl.modelo_3d.split("/").pop() || "";
+              const nombreFichero = filename.replace(/\.[^.]+$/, "");
+              return (
+                <tr key={pl.id} className="hover:bg-gray-800">
+                  {editingPlanetId === pl.id ? (
+                    <>
+                      <td className="px-4 py-2 text-center align-middle">
+                        {pl.id}
+                      </td>
 
-                    <td className="px-4 py-2 align-middle">
-                      <input
-                        name="nombre"
-                        value={editData.nombre}
-                        onChange={handleEditChange}
-                        className="w-full p-1 bg-gray-700 border border-gray-600 rounded text-gray-100 text-center"
-                      />
-                    </td>
+                      <td className="px-4 py-2 align-middle">
+                        <input
+                          name="nombre"
+                          value={editData.nombre}
+                          onChange={handleEditChange}
+                          className="w-full p-1 bg-gray-700 border border-gray-600 rounded text-gray-100 text-center"
+                        />
+                      </td>
+                      <td className="px-4 py-2 whitespace-nowrap text-gray-400 italic">
+                        {nombreFichero}
+                      </td>
 
-                    <td className="px-4 py-2 align-middle">
-                      <input
-                        name="descripcion"
-                        value={editData.descripcion}
-                        onChange={handleEditChange}
-                        className="w-full p-1 bg-gray-700 border border-gray-600 rounded text-gray-100 text-center"
-                      />
-                    </td>
+                      <td className="px-4 py-2 align-middle">
+                        <input
+                          name="descripcion"
+                          value={editData.descripcion}
+                          onChange={handleEditChange}
+                          className="w-full p-1 bg-gray-700 border border-gray-600 rounded text-gray-100 text-center"
+                        />
+                      </td>
 
-                    <td className="px-4 py-2 align-middle text-center">
-                      <input
-                        name="imagen_web"
-                        type="file"
-                        accept="image/*"
-                        onChange={handleEditChange}
-                        className="mx-auto block
+                      <td className="px-4 py-2 align-middle text-center">
+                        <input
+                          name="imagen_web"
+                          type="file"
+                          accept="image/*"
+                          onChange={handleEditChange}
+                          className="mx-auto block
                 file:bg-indigo-600 file:text-white file:px-2 file:py-1 file:rounded-full file:border-0 file:cursor-pointer
                 text-gray-200"
-                      />
-                    </td>
+                        />
+                      </td>
 
-                    <td className="px-4 py-2 align-middle text-center">
-                      <input
-                        name="modelo_3d"
-                        type="file"
-                        accept=".glb,.gltf"
-                        onChange={handleEditChange}
-                        className="mx-auto block
+                      <td className="px-4 py-2 align-middle text-center">
+                        <input
+                          name="modelo_3d"
+                          type="file"
+                          accept=".glb,.gltf"
+                          onChange={handleEditChange}
+                          className="mx-auto block
                 file:bg-indigo-600 file:text-white file:px-2 file:py-1 file:rounded-full file:border-0 file:cursor-pointer
                 text-gray-200"
-                      />
-                    </td>
+                        />
+                      </td>
 
-                    <td className="px-4 py-2 align-middle">
-                      <input
-                        name="orden_solar"
-                        type="number"
-                        value={editData.orden_solar}
-                        onChange={handleEditChange}
-                        className="w-16 mx-auto p-1 bg-gray-700 border border-gray-600 rounded text-gray-100 text-center"
-                      />
-                    </td>
+                      <td className="px-4 py-2 align-middle">
+                        <input
+                          name="orden_solar"
+                          type="number"
+                          value={editData.orden_solar}
+                          onChange={handleEditChange}
+                          className="w-16 mx-auto p-1 bg-gray-700 border border-gray-600 rounded text-gray-100 text-center"
+                        />
+                      </td>
 
-                    <td className="px-4 py-2 align-middle">
-                      <div className="flex justify-center space-x-2">
-                        <button
-                          onClick={handleUpdatePlanet}
-                          className="bg-green-600 hover:bg-green-500 text-white px-2 py-1 rounded transition transform hover:scale-105"
+                      <td className="px-4 py-2 align-middle">
+                        <div className="flex justify-center space-x-2">
+                          <button
+                            onClick={handleUpdatePlanet}
+                            className="bg-green-600 hover:bg-green-500 text-white px-2 py-1 rounded transition transform hover:scale-105"
+                          >
+                            Guardar
+                          </button>
+                          <button
+                            onClick={cancelEdit}
+                            className="bg-gray-600 hover:bg-gray-500 text-white px-2 py-1 rounded transition transform hover:scale-105"
+                          >
+                            Cancelar
+                          </button>
+                        </div>
+                      </td>
+                    </>
+                  ) : (
+                    <>
+                      <td className="px-4 py-2">{pl.id}</td>
+                      <td className="px-4 py-2">{pl.nombre}</td>
+                      <td className="px-4 py-2">{nombreFichero}</td>
+                      <td className="px-4 py-2">{pl.descripcion}</td>
+                      <td className="px-4 py-2">
+                        <a
+                          href={pl.imagen_web}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-indigo-400 hover:underline break-all"
                         >
-                          Guardar
-                        </button>
-                        <button
-                          onClick={cancelEdit}
-                          className="bg-gray-600 hover:bg-gray-500 text-white px-2 py-1 rounded transition transform hover:scale-105"
+                          {pl.imagen_web.split("/").pop()}
+                        </a>
+                      </td>
+                      <td className="px-4 py-2">
+                        <a
+                          href={pl.modelo_3d}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-indigo-400 hover:underline break-all"
                         >
-                          Cancelar
-                        </button>
-                      </div>
-                    </td>
-                  </>
-                ) : (
-                  <>
-                    <td className="px-4 py-2">{pl.id}</td>
-                    <td className="px-4 py-2">{pl.nombre}</td>
-                    <td className="px-4 py-2">{pl.descripcion}</td>
-                    <td className="px-4 py-2">
-                      <a
-                        href={pl.imagen_web}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-indigo-400 hover:underline break-all"
-                      >
-                        {pl.imagen_web.split("/").pop()}
-                      </a>
-                    </td>
-                    <td className="px-4 py-2">
-                      <a
-                        href={pl.modelo_3d}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-indigo-400 hover:underline break-all"
-                      >
-                        {pl.modelo_3d.split("/").pop()}
-                      </a>
-                    </td>
-                    <td className="px-4 py-2">{pl.orden_solar}</td>
-                    <td className="px-4 py-2">
-                      <div className="flex flex-col sm:flex-row sm:space-x-2 space-y-2 sm:space-y-0">
-                        <button
-                          onClick={() => startEdit(pl)}
-                          className="bg-blue-600 hover:bg-blue-500 text-white px-3 py-1 rounded transition transform hover:scale-105"
-                        >
-                          Editar
-                        </button>
-                        <button
-                          onClick={() => handleDeletePlaneta(pl.id)}
-                          className="bg-red-600 hover:bg-red-500 text-white px-3 py-1 rounded transition transform hover:scale-105"
-                        >
-                          Eliminar
-                        </button>
-                      </div>
-                    </td>
-                  </>
-                )}
-              </tr>
-            ))}
+                          {pl.modelo_3d.split("/").pop()}
+                        </a>
+                      </td>
+                      <td className="px-4 py-2">{pl.orden_solar}</td>
+                      <td className="px-4 py-2">
+                        <div className="flex flex-col sm:flex-row sm:space-x-2 space-y-2 sm:space-y-0">
+                          <button
+                            onClick={() => startEdit(pl)}
+                            className="bg-blue-600 hover:bg-blue-500 text-white px-3 py-1 rounded transition transform hover:scale-105"
+                          >
+                            Editar
+                          </button>
+                          <button
+                            onClick={() => handleDeletePlaneta(pl.id)}
+                            className="bg-red-600 hover:bg-red-500 text-white px-3 py-1 rounded transition transform hover:scale-105"
+                          >
+                            Eliminar
+                          </button>
+                        </div>
+                      </td>
+                    </>
+                  )}
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

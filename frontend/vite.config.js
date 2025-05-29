@@ -7,13 +7,13 @@ export default defineConfig({
     host: true,
     proxy: {
       "/api": {
-        target: "http://localhost:5000",     //backend para docker //localhost para local
+        target: "http://backend:5000",     //backend para docker //localhost para local
         changeOrigin: true,
         secure: false,
         rewrite: (path) => path.replace(/^\/api/, "/api"),
       },
       "/uploads": {
-        target: "http://localhost:5000",      //backend para docker //localhost para local
+        target: "http://backend:5000",      //backend para docker //localhost para local
         changeOrigin: true,
         secure: false,
       },

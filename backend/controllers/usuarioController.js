@@ -15,7 +15,7 @@ export const getUsuarios = async (req, res) => {
 
 export const cambiarRolUsuario = (req, res) => {
   const { id } = req.params;
-  const { rol } = req.body; // 'user' o 'admin'
+  const { rol } = req.body; 
   if (!['user','admin'].includes(rol)) {
     return res.status(400).json({ mensaje: 'Rol no válido' });
   }
@@ -24,3 +24,18 @@ export const cambiarRolUsuario = (req, res) => {
     .then(() => res.json({ mensaje: 'Rol actualizado' }))
     .catch(err => res.status(500).json({ error: err.message }));
 };
+
+export const deleteUsuario = (req, res) => {
+  const { id } = req.params
+  db.query(
+    'DELETE FROM usuarios WHERE id = ?',
+    [id],
+    (err, result) => {
+      if (err) return res.status(500).json({ error: err.message })
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ error: 'Usuario no encontrado' })
+      }
+      res.json({ message: 'Usuario eliminado' })
+    }
+  )
+}

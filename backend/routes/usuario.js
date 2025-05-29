@@ -4,6 +4,7 @@ import verifyAdmin from '../middleware/verifyAdmin.js';
 import {
 getUsuarios,
 cambiarRolUsuario,
+deleteUsuario
 } from '../controllers/usuarioController.js';
 
 const router = express.Router();
@@ -21,5 +22,7 @@ router.get('/', verifyAdmin, getUsuarios);
 
 // PATCH cambiar rol de un usuario (solo ADMIN)
 router.patch('/\:id/rol', verifyAdmin, cambiarRolUsuario);
+
+router.delete('/:id', deleteUsuario)
 
 export default router;
