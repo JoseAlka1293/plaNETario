@@ -20,7 +20,13 @@ services:
     
   # Backend (Node + Express)
   backend:
+
+    # **Desarrollo** descomentar esta linea y comenta la seccion de 'image: …'
     build: ./backend
+
+    # **En el equipo destino**, despues de hacer `docker load -i planetario-backend-image.tar`,
+    # image: planetario-backend:latest
+
     command: sh -c "sleep 15 && npm start"
     restart: on-failure
     depends_on:
@@ -37,7 +43,13 @@ services:
 
   # Frontend (Vite + React)
   frontend:
+
+    # **Desarrollo** descomentar esta linea y comenta la seccion de 'image: …'
     build: ./frontend
+
+    # **Equipo destino**, despues de `docker load -i planetario-frontend-image.tar`:
+    # image: planetario-frontend:latest
+
     restart: on-failure
     depends_on:
       - backend
