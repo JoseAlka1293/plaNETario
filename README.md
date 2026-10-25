@@ -1,8 +1,4 @@
-Este proyecto se basa en la creacion de un mapa interactivo 3D con planetas y
-distintos cuerpos celestes presentes en el espacio exterior. 
-
-La creacion de este proyecto se realizara con distintas tecnologias modernas:
-
+Este proyecto tiene como objetivo mostrar elementos 3D de planetas del espacio exterior. 
 
                                         ***     FRONTEND    ***
 
@@ -28,7 +24,6 @@ La creacion de este proyecto se realizara con distintas tecnologias modernas:
 
 -> jsonwebtoken: Permite crear tokens de sesión
 
--> dotenv: Leer configuración desde .env
 
                                         ***     BACKEND    ***
 
