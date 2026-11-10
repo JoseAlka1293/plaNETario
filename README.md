@@ -1,56 +1,92 @@
-Este proyecto tiene como objetivo mostrar elementos 3D de planetas del espacio exterior. 
+# 🌌 plaNETario
 
-                                        ***     FRONTEND    ***
+**Una experiencia interactiva en 3D para explorar y visualizar elementos del espacio exterior.**
 
--> React: Es una biblioteca de JS con una gran comunidad
+plaNETario es un proyecto de desarrollo web que busca representar elementos del universo mediante escenas tridimensionales, ofreciendo una experiencia visual e interactiva a través del navegador.
 
--> Vite:  Herramienta de desarrollo que permite la recarga en caliente y requiere una configuracion minima
+El proyecto combina tecnologías de desarrollo frontend y backend para crear una aplicación web con representación 3D, animaciones y gestión de datos.
 
--> TailwindCSS: Un framework CSS para diseñar de forma rapida interfaces responsivas y modernas 
+---
 
--> React Three Fiber: Un render de Three.js que permite integrar y manipular escenas 3D
+## 🚀 Tecnologías utilizadas
 
--> Framer Motion: Una libreria para crear animaciones fluidas e interactivas en React
+El proyecto está desarrollado utilizando diferentes tecnologías, organizadas según su función dentro de la aplicación.
 
--> GSAP: Para agregar animaciones a los botones
+### 🎨 Frontend
 
--> React Router: Para gestionar la navegacion entre las diferentes paginas
+Tecnologías utilizadas para construir la interfaz de usuario, gestionar la navegación y representar los elementos tridimensionales.
 
--> Sass: Para cargar codigo CSS haciendo que sea mas compatible con la mayoría de navegadores
+| Tecnología | Descripción |
+|---|---|
+| **React** | Biblioteca de JavaScript utilizada para construir interfaces mediante componentes reutilizables. |
+| **Vite** | Herramienta de desarrollo que proporciona un entorno rápido para ejecutar y compilar aplicaciones frontend. |
+| **Tailwind CSS** | Framework CSS basado en clases de utilidad para diseñar interfaces modernas y adaptables. |
+| **React Three Fiber** | Biblioteca que permite integrar y gestionar escenas 3D de Three.js mediante componentes de React. |
+| **Framer Motion** | Biblioteca para implementar animaciones y transiciones fluidas en React. |
+| **GSAP** | Biblioteca especializada en la creación de animaciones web avanzadas. |
+| **React Router** | Biblioteca para gestionar la navegación y las rutas de la aplicación. |
+| **Sass** | Preprocesador CSS que amplía las posibilidades de organización y reutilización de estilos. |
+| **Axios** | Biblioteca para realizar peticiones HTTP y facilitar la comunicación con el backend. |
+| **bcryptjs** | Biblioteca para aplicar funciones de hash a las contraseñas y almacenarlas de forma segura. |
+| **jsonwebtoken** | Biblioteca para generar y verificar tokens JWT utilizados en la autenticación. |
 
--> Axios: Es una librería de JavaScript que simplifica la realización de solicitudes HTTP (como GET, POST, PUT, DELETE, etc.)
+### ⚙️ Backend
 
--> bcryptjs: Permite proteger contraseñas
+Tecnologías encargadas de gestionar la lógica del servidor, las peticiones HTTP, la comunicación con la base de datos y el tratamiento de archivos.
 
--> jsonwebtoken: Permite crear tokens de sesión
+| Tecnología | Descripción |
+|---|---|
+| **Node.js** | Entorno de ejecución que permite ejecutar JavaScript en el servidor. |
+| **Express** | Framework para Node.js que facilita la creación de servidores y APIs REST. |
+| **MySQL** | Sistema de gestión de bases de datos relacionales utilizado para almacenar la información de la aplicación. |
+| **phpMyAdmin** | Herramienta web para administrar y gestionar bases de datos MySQL. |
+| **dotenv** | Biblioteca para gestionar variables de entorno mediante archivos `.env`. |
+| **mysql2** | Driver que permite conectar Node.js con MySQL y ejecutar consultas SQL. |
+| **CORS** | Middleware que permite configurar las políticas de acceso entre el frontend y el backend. |
+| **Express JSON** | Middleware integrado en Express para interpretar las peticiones que contienen datos en formato JSON. |
+| **Multer** | Middleware para gestionar la subida y recepción de archivos en aplicaciones Node.js. |
 
+### 🛠️ Herramientas adicionales
 
-                                        ***     BACKEND    ***
+Herramientas utilizadas durante el desarrollo, diseño, pruebas y control de versiones del proyecto.
 
--> Node.js: Un entorno de ejecucion para JavaScript en el servidor   
+| Herramienta | Descripción |
+|---|---|
+| **Visual Studio Code** | Editor de código utilizado para desarrollar y gestionar el proyecto. |
+| **Postman** | Herramienta para probar y documentar APIs mediante el envío de peticiones HTTP. |
+| **Git** | Sistema de control de versiones para registrar y gestionar los cambios realizados en el código. |
+| **GitHub** | Plataforma de alojamiento de repositorios para almacenar el código y facilitar su seguimiento y colaboración. |
+| **Figma** | Herramienta de diseño utilizada para crear prototipos y diseños de la interfaz de usuario. |
+| **Docker** | Plataforma de contenedores utilizada para facilitar la configuración y el despliegue de entornos de desarrollo. |
+| **Docker Desktop** | Aplicación que permite gestionar contenedores e imágenes Docker desde un entorno gráfico. |
 
--> Express: Un framework minimalista para Node.js que simplifica la creación de APIs REST y el manejo de rutas, peticiones y respuestas
+---
 
--> MySQL: Un sistema de gestión de bases de datos relacional en el que se almacenarán los datos del proyecto (usuarios, planetas, consultas)
+## 🧩 Arquitectura del proyecto
 
--> PhpMyAdmin: Una herramienta web que facilita la administración y gestión visual de las bases de datos MySQL
+La aplicación se organiza en dos partes principales:
 
--> dotenv: Una libreria que permite cargar variables de entorno desde un archivo .env
+- **Frontend:** desarrollado con React y Vite, encargado de la interfaz, la navegación y la representación de los elementos 3D.
+- **Backend:** desarrollado con Node.js y Express, encargado de gestionar las peticiones, la lógica del servidor y la comunicación con MySQL.
 
--> Mysql2: Un driver para Node.js que facilita la conexión y ejecución de consultas en una base de datos MySQL
+Ambas partes se comunican mediante peticiones HTTP a través de una API REST.
 
--> Middleware de CORS y JSON: Herramientas para configurar y asegurar la comunicacion entre el frontend y el backend, permitiendo que se puedan realizar peticiones de manera segura y manejar datos en formato JSON
+---
 
--> Multer: middleware de Node.js que facilita la subida de archivos en aplicaciones web, especialmente con Express.js
+## 🎯 Objetivo del proyecto
 
-                                ***     HERRAMIENTAS ADICIONALES    ***
+El objetivo principal de plaNETario es aplicar y consolidar conocimientos de desarrollo web mediante la creación de una aplicación que combina tecnologías frontend, backend y representación tridimensional.
 
--> VS Code
+Este proyecto también permite trabajar con conceptos como:
 
--> Postman: Una aplicacion para probar y documentar APIs, lo que facilita enviar peticiones al backend y verificar que las respuestas sean las esperadas
+- Desarrollo de interfaces mediante componentes.
+- Representación y manipulación de escenas 3D.
+- Creación y consumo de APIs REST.
+- Gestión de bases de datos relacionales.
+- Autenticación y gestión de usuarios.
+- Control de versiones y organización del código.
+- Contenedorización y configuración de entornos de desarrollo.
 
--> Git y GitHub: Herramientas de control de versiones que te permitirán gestionar el codigo
+---
 
--> Figma: Herramienta de diseño para crear los mockups y prototipos de la interfaz de usuario
-
--> Docker + Docker Desktop: Herramienta que nos permite guardar nuestro entorno de trabajo y poder utilizarlo en otro ordenador sin tener que configurar nuevamente todas nuestras configuraciones
+**Desarrollado como proyecto de Desarrollo de Aplicaciones Web (DAW).** 🚀
